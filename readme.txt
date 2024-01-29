@@ -10,4 +10,4 @@ This project is aimed at showcasing a list of the cutest pet breeds that are ado
 2. **High Quality Images**: Each breed will be accompanied by its high qulaity image that shows its cuteness
 3. **Responsiveness**: A fully responsive design that can be accessed across all devices 
 4. **Login/Logout Functionality**: Users can login/logout and save their favourite pets 
-5. **Social Sharing**: Options to share pet related contents on social media
+5. **Social Sharing**: Options to share pet related contents on social media like Whatsapp
