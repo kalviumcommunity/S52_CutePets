@@ -1,0 +1,11 @@
+{
+  "name": "init_package",
+  "version": "1.0.0",
+  "description": "This project is aimed at showcasing a list of the cutest pet breeds that are adorable and most liked by the pet lovers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
