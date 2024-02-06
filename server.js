@@ -1,8 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
+require('dotenv').config()
 const app = express()
 
-const mongoURI = 'mongodb+srv://pet_user_01:cutepets123@pets.dsug72y.mongodb.net/CutestPets?retryWrites=true&w=majority'
+const mongoURI = process.env.mongoURI
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
