@@ -17,3 +17,5 @@ This project is aimed at showcasing a list of the cutest pet breeds that are ado
 5. **Social Sharing**: Options to share pet related contents on social media like Whatsapp.
 
 ## Render Deployment Link: https://service-cutest-pets.onrender.com
+
+## Netlify Deployment Link: https://65c5ac4a47885c55375c4ab8--dulcet-florentine-bfe690.netlify.app/
