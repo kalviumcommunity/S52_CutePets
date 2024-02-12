@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "breed": "Golden Retriever",
+        "type": "Dog"
+    },
+    {
+        "id": 2,
+        "breed": "Persian",
+        "type": "Cat"
+    },
+    {
+        "id": 3,
+        "breed": "Pomeranian",
+        "type": "Dog"
+    },
+    {
+        "id": 4,
+        "breed": "Scottish Fold",
+        "type": "Cat"
+    }
+]
+    
+
