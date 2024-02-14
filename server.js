@@ -31,9 +31,37 @@ app.get("/", (req, res) => {
 });
 app.get("/pets", (req, res) => {
   PetModel.find()
-    .then((users) => res.json(users))
+    .then((pets) => res.json(pets))
     .catch((err) => res.json(err));
 });
+
+app.post("/createPet", (req, res) => {
+  PetModel.create(req.body)
+  .then(eachPet => res.json(eachPet))
+  .catch(err => res.json(err))
+})
+
+app.get("/getPet/:id", (req, res) => {
+  const id = req.params.id
+  PetModel.findById({_id:id})
+  .then(pet => res.json(pet))
+  .catch(err => res.json(err))
+})
+
+app.put("/updatePet/:id", (req, res) => {
+  const id = req.params.id
+  PetModel.findByIdAndUpdate({_id: id}, {breed: req.body.breed, type: req.body.type})
+  .then(pet => res.json(pet))
+  .catch(err => res.json(err))
+})
+
+app.delete("/deletePet/:id", (req, res) => {
+  const id = req.params.id
+  PetModel.findByIdAndDelete({_id: id})
+  .then(res => res.json(res))
+  .catch(err => res.json(err))
+})
+
 app.listen(4000, () => {
   console.log("Server is running at port 4000");
 });
