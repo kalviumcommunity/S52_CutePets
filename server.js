@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const Joi = require("joi");
+const cookieParser = require("cookie-parser")
 require("dotenv").config();
 const app = express();
 const petRoutes = require("./routes");
+const userRoutes = require("./userRoutes")
 const PetModel = require("./models/Petmodels");
 
 const mongoURI = process.env.mongoURI;
@@ -18,9 +21,14 @@ db.once("open", () => {
   console.log("Connected to MongoDB using Mongoose");
 });
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  credentials: true
+}));
+app.use(cookieParser())
 app.use(express.json());
 app.use("/pets", petRoutes);
+app.use("/auth", userRoutes)
 
 app.get("/", (req, res) => {
   if (db.readyState === 1) {
@@ -35,7 +43,21 @@ app.get("/pets", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+const createPetSchema = Joi.object({
+  breed: Joi.string().required().pattern(new RegExp('^[A-za-z ]+$')).messages({
+    'string.pattern.base': `"breed" should only contain alphabetic characters`
+  }),
+  type: Joi.string().required().pattern(new RegExp('[A-za-z ]+$')).messages({
+    'string.pattern.base': `"breed" should only contain alphabetic characters`
+  })
+})
+
 app.post("/createPet", (req, res) => {
+  const {error} = createPetSchema.validate(req.body)
+  if(error){
+    return res.status(400).send(error.details[0].message)
+  }
+
   PetModel.create(req.body)
   .then(eachPet => res.json(eachPet))
   .catch(err => res.json(err))
@@ -49,6 +71,11 @@ app.get("/getPet/:id", (req, res) => {
 })
 
 app.put("/updatePet/:id", (req, res) => {
+  const {error} = createPetSchema.validate(req.body)
+  if(error){
+    return res.status(400).send(error.details[0].message)
+  }
+
   const id = req.params.id
   PetModel.findByIdAndUpdate({_id: id}, {breed: req.body.breed, type: req.body.type})
   .then(pet => res.json(pet))
@@ -62,6 +89,6 @@ app.delete("/deletePet/:id", (req, res) => {
   .catch(err => res.json(err))
 })
 
-app.listen(4000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server is running at port 4000");
 });

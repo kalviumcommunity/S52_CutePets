@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
-import {Link} from 'react-router-dom'
+import Cookies from 'js-cookie'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from "axios";
 
 const Pets = () => {
+
+  const jwtToken = Cookies.get('token')
+  const navigate = useNavigate()
+  useEffect(() => {
+    if(jwtToken === undefined){
+      navigate("/login");
+    }
+  }, [jwtToken, navigate]);
+
   const [pets, setPets] = useState([]);
   useEffect(() => {
     axios
       .get("http://localhost:4000/pets")
       .then((pets) => {
-        console.log(pets.data);
         setPets(pets.data);
       })
       .catch((err) => console.log(err));
@@ -17,10 +26,14 @@ const Pets = () => {
   const handleDelete = (id) => {
     axios.delete("http://localhost:4000/deletePet/" + id)
     .then(res => {
-      console.log(res)
       window.location.reload()
     })
     .catch(err => console.log(err))
+  }
+
+  const handleLogout = () => {
+    Cookies.remove('token')
+    navigate("/login")
   }
 
   return (
@@ -31,6 +44,7 @@ const Pets = () => {
       <Link to="/createPet">
         <button>Add +</button>
       </Link>
+      <button onClick={handleLogout}>Logout</button>
       <table>
         <thead>
           <tr>
