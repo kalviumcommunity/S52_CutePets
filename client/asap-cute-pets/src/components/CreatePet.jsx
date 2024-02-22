@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 const CreatePet = () => {
     const [breed, setBreed] = useState()
     const [type, setType] = useState()
+    const [createdBy, setCreatedBy] = useState()
     const [error, setError] = useState()
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
         setError('')
-        axios.post("http://localhost:4000/createPet", {breed, type})
+        axios.post("http://localhost:4000/createPet", {breed, type, created_by: createdBy})
         .then((res) => {
             console.log(res)
             navigate('/')
@@ -32,6 +33,10 @@ const CreatePet = () => {
         <div>
             <label htmlFor='type'>Type</label>
             <input type='text' id='type' placeholder='Enter Breed Type' onChange={(e) => setType(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor='createdBy'>Created By</label>
+          <input type='text' id='createdBy' placeholder='Enter username' onChange={(e) => setCreatedBy(e.target.value)} />
         </div>
         <button>Submit</button>
         {error && <p>{error}</p>}

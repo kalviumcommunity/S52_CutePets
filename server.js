@@ -48,8 +48,18 @@ const createPetSchema = Joi.object({
     'string.pattern.base': `"breed" should only contain alphabetic characters`
   }),
   type: Joi.string().required().pattern(new RegExp('[A-za-z ]+$')).messages({
+    'string.pattern.base': `"type" should only contain alphabetic characters`
+  }),
+  created_by: Joi.string().required()
+})
+
+const updatePetSchema = Joi.object({
+  breed: Joi.string().required().pattern(new RegExp('^[A-za-z ]+$')).messages({
     'string.pattern.base': `"breed" should only contain alphabetic characters`
-  })
+  }),
+  type: Joi.string().required().pattern(new RegExp('[A-za-z ]+$')).messages({
+    'string.pattern.base': `"type" should only contain alphabetic characters`
+  }),
 })
 
 app.post("/createPet", (req, res) => {
@@ -71,7 +81,7 @@ app.get("/getPet/:id", (req, res) => {
 })
 
 app.put("/updatePet/:id", (req, res) => {
-  const {error} = createPetSchema.validate(req.body)
+  const {error} = updatePetSchema.validate(req.body)
   if(error){
     return res.status(400).send(error.details[0].message)
   }
